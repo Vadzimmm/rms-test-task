@@ -1,0 +1,5 @@
+.idea
+.env
+/docker/**/assets/**/*.ini
+compose.override.yml
+vendor
