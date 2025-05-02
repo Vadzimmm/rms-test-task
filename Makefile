@@ -68,6 +68,28 @@ install-migrations:
 	cd ./docker && \
 	docker compose run --rm -u www-data -it -e XDEBUG_MODE=off php-cli bin/console doctrine:migrations:migrate --no-interaction
 
+run-workers:
+	@echo "Checking if Symfony Messenger async workers are running..."
+	@if [ -z "$$(docker ps --filter 'name=$(COMPOSE_PROJECT_NAME)_php' --filter 'status=running' --quiet)" ]; then \
+		echo "PHP container is not running. Starting it..."; \
+		cd ./docker && docker compose up -d php; \
+	fi
+	@if ! docker exec $(COMPOSE_PROJECT_NAME)_php ps aux | grep -q "[m]essenger:consume async_command"; then \
+		echo "Starting Symfony Messenger async workers..."; \
+		docker exec -d -u www-data -e XDEBUG_MODE=off $(COMPOSE_PROJECT_NAME)_php sh -c "bin/console messenger:consume async_command"; \
+	else \
+		echo "Symfony Messenger async workers are already running."; \
+	fi
+
+stop-workers:
+	@echo "Stopping Symfony Messenger async workers..."
+	@if [ -z "$$(docker ps --filter 'name=$(COMPOSE_PROJECT_NAME)_php' --filter 'status=running' --quiet)" ]; then \
+		echo "PHP container is not running. Nothing to stop."; \
+	else \
+		echo "Killing async workers in PHP container..."; \
+		docker exec $(COMPOSE_PROJECT_NAME)_php sh -c "ps aux | grep 'messenger:consume async_command' | grep -v grep | awk '{print \$$1}' | xargs kill || true"; \
+	fi
+
 up:
 	cd ./docker && docker compose up -d
 	@echo "Application is available at: http://127.0.0.1:8080"
@@ -83,4 +105,4 @@ sh:
 	cd ./docker && docker compose run --rm -u www-data -it php-cli sh -l
 
 run:
-	docker exec -it -e XDEBUG_MODE=off $(COMPOSE_PROJECT_NAME)_php bin/console app:parse-log var/log/logs.log
+	docker exec -it -e XDEBUG_MODE=off $(COMPOSE_PROJECT_NAME)_php bin/console app:parse-log ./var/log/logs.log 10

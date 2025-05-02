@@ -17,21 +17,34 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/Domain/LogEntry/'
+            - '../src/Domain/LogSinker/LogEntry.php'
+            - '../src/Shared/'
             - '../src/Kernel.php'
 
-    App\ExceptionHandler\:
-        resource: '../src/ExceptionHandler/'
+    App\Infrastructure\ExceptionHandler\:
+        resource: '../src/Infrastructure/ExceptionHandler/'
         tags: [ 'app.exception_handler' ]
 
-    App\EventListener\ExceptionListener:
+    App\Infrastructure\EventListener\ExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    App\ExceptionHandler\ExceptionHandlerResolver:
+    App\Infrastructure\ExceptionHandler\ExceptionHandlerResolver:
         arguments:
             $handlers: !tagged_iterator app.exception_handler
 
+    App\Infrastructure\Serializer\CarbonDateTimeDenormalizer:
+        tags: [ serializer.normalizer ]
+
+    _instanceof:
+        App\Application\Command\Handler\CommandHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+
+        App\Application\Query\Handler\QueryHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: query.bus }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
