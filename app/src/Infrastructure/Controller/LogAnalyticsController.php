@@ -6,8 +6,8 @@ namespace App\Infrastructure\Controller;
 
 use App\Application\Query\CountLogEntriesQuery;
 use App\Application\Query\QueryBusInterface;
-use App\Shared\DTO\Request\LogFilterQueryParamsDto;
-use App\Shared\DTO\Response\CountItemDto;
+use App\Shared\Dto\Request\LogFilterQueryParamsDto;
+use App\Shared\Dto\Response\CountItemDto;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

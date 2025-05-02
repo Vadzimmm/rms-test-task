@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\DTO\Response;
+namespace App\Shared\Dto\Response;
 
 readonly class CountItemDto
 {
