@@ -6,10 +6,10 @@ namespace App\Domain\LogSinker\Parser;
 
 use App\Domain\LogSinker\LogEntry;
 
-readonly class RegexParserStrategyInterface implements ParserStrategyInterface
+final readonly class RegexParserStrategyInterface implements ParserStrategyInterface
 {
-    protected const string LOG_PATTERN = '/^(\S+)(?:\s+-){2}\s+\[(\d{2}\/[A-Za-z]{3}\/\d{4}:\d{2}:\d{2}:\d{2}\s\+\d{4})\]\s+"([^"]+)"\s+(\d+)$/';
-    protected const string DATETIME_FORMAT = 'd/M/Y:H:i:s O';
+    private const string LOG_PATTERN = '/^(\S+)(?:\s+-){2}\s+\[(\d{2}\/[A-Za-z]{3}\/\d{4}:\d{2}:\d{2}:\d{2}\s\+\d{4})\]\s+"([^"]+)"\s+(\d+)$/';
+    private const string DATETIME_FORMAT = 'd/M/Y:H:i:s O';
 
     public function parseEntry(string $logRecord): ?LogEntry
     {

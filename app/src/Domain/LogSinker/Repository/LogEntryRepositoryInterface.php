@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Repository;
+namespace App\Domain\LogSinker\Repository;
 
 use App\Domain\LogEntry\LogEntryEntity;
 use App\Shared\Dto\Request\LogFilterQueryParamsDto;

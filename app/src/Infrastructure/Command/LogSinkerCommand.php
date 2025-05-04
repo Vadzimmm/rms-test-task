@@ -45,7 +45,6 @@ final class LogSinkerCommand extends Command
     {
         $filePath = $input->getArgument('file');
         $batchSize = $input->getArgument('batchSize');
-
         if (!is_numeric($batchSize) || (int) $batchSize <= 0) {
             $output->writeln('<error>Batch size must be a positive integer.</error>');
 

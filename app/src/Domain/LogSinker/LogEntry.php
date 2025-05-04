@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\LogSinker;
 
-readonly class LogEntry
+final readonly class LogEntry
 {
     public function __construct(
         public string $serviceName,

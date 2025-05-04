@@ -12,7 +12,6 @@ use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -93,18 +92,11 @@ final class LogAnalyticsController extends AbstractController
         #[MapQueryString]
         LogFilterQueryParamsDto $filterDto
     ): JsonResponse {
-        try {
-            /** @var int $count */
-            $count = $this->queryBus->execute(new CountLogEntriesQuery($filterDto));
+        /** @var int $count */
+        $count = $this->queryBus->execute(new CountLogEntriesQuery($filterDto));
 
-            return $this->json(
-                new CountItemDto($count)
-            );
-        } catch (\Exception $e) {
-            return $this->json(
-                ['error' => $e->getMessage()],
-                Response::HTTP_INTERNAL_SERVER_ERROR
-            );
-        }
+        return $this->json(
+            new CountItemDto($count)
+        );
     }
 }

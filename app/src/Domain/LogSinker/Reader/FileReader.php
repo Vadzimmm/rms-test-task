@@ -6,9 +6,8 @@ namespace App\Domain\LogSinker\Reader;
 
 use App\Domain\LogSinker\Exception\FileNotReadableException;
 use App\Domain\LogSinker\Exception\FileOpenException;
-use App\Domain\LogSinker\Exception\FileReadException;
 
-readonly class FileReader implements ReaderInterface
+final readonly class FileReader implements ReaderInterface
 {
     public function __construct(
         private string $filePath
@@ -26,16 +25,13 @@ readonly class FileReader implements ReaderInterface
             throw new FileOpenException($this->filePath);
         }
 
-        try {
-            while (false !== ($line = fgets($file))) {
-                yield trim($line);
+        while (!feof($file)) {
+            $line = fgets($file);
+            if ($line !== false) {
+                yield $line;
             }
-
-            if (!feof($file)) {
-                throw new FileReadException($this->filePath);
-            }
-        } finally {
-            fclose($file);
         }
+
+        fclose($file);
     }
 }

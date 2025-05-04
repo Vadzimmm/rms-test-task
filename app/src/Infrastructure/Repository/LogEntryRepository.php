@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\LogEntry\LogEntryEntity;
+use App\Domain\LogSinker\Repository\LogEntryRepositoryInterface;
 use App\Infrastructure\Repository\Filter\LogEntryFilterTrait;
 use App\Shared\Dto\Request\LogFilterQueryParamsDto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

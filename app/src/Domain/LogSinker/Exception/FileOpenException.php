@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\LogSinker\Exception;
 
-final class FileOpenException extends \Exception
+final class FileOpenException extends \RuntimeException
 {
     public function __construct(
         readonly string $filePath,

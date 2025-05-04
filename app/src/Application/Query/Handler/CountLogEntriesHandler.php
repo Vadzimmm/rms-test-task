@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Application\Query\Handler;
 
 use App\Application\Query\CountLogEntriesQuery;
-use App\Infrastructure\Repository\LogEntryRepositoryInterface;
+use App\Domain\LogSinker\Repository\LogEntryRepositoryInterface;
 
 final readonly class CountLogEntriesHandler implements QueryHandlerInterface
 {

@@ -6,7 +6,7 @@ namespace App\Domain\LogSinker\Parser;
 
 use App\Domain\LogSinker\Reader\ReaderInterface;
 
-readonly class LogParser implements ParserInterface
+final readonly class LogParser implements ParserInterface
 {
     public function __construct(
         private ReaderInterface $reader,
