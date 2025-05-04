@@ -27,7 +27,7 @@ final readonly class FileReader implements ReaderInterface
 
         while (!feof($file)) {
             $line = fgets($file);
-            if ($line !== false) {
+            if (false !== $line) {
                 yield $line;
             }
         }

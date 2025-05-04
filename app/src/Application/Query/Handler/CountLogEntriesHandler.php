@@ -15,6 +15,13 @@ final readonly class CountLogEntriesHandler implements QueryHandlerInterface
 
     public function __invoke(CountLogEntriesQuery $countLogEntriesQuery): int
     {
-        return $this->logEntryRepository->countFilteredLogEntries($countLogEntriesQuery->logFilterQueryParamsDto);
+        $parameters = $countLogEntriesQuery->logFilterQueryParamsDto;
+
+        return $this->logEntryRepository->countFilteredLogEntries(
+            $parameters->serviceNames,
+            $parameters->statusCode,
+            $parameters->startDate,
+            $parameters->endDate
+        );
     }
 }

@@ -6,13 +6,14 @@ namespace App\Domain\LogSinker\Reader;
 
 use App\Domain\LogSinker\Exception\FileNotReadableException;
 use App\Domain\LogSinker\Exception\FileOpenException;
-use App\Domain\LogSinker\Exception\FileReadException;
 
 interface ReaderInterface
 {
     /**
      * @return iterable<string>
-     * @throws FileNotReadableException|FileOpenException|FileReadException
+     *
+     * @throws FileNotReadableException
+     * @throws FileOpenException
      */
     public function read(): iterable;
 }

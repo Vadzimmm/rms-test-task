@@ -13,6 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class LogSinkerCommand extends Command
 {
+    private const int DEFAULT_BATCH_SIZE = 5;
+
     /** @phpstan-ignore-next-line */
     protected static $defaultName = 'app:parse-log';
 
@@ -36,7 +38,7 @@ final class LogSinkerCommand extends Command
                 'batchSize',
                 InputArgument::OPTIONAL,
                 'Batch size of logs (default: 5)',
-                5
+                self::DEFAULT_BATCH_SIZE
             )
         ;
     }

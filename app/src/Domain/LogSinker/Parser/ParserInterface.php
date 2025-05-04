@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Domain\LogSinker\Parser;
 
 use App\Domain\LogSinker\LogEntry;
+use App\Domain\LogSinker\Reader\ReaderInterface;
 
 interface ParserInterface
 {
     /**
      * @return iterable<LogEntry>
      */
-    public function parse(): iterable;
+    public function parseFrom(ReaderInterface $reader): iterable;
 }

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\LogEntry\LogEntryEntity;
+use App\Domain\LogSinker\LogEntry;
 use App\Domain\LogSinker\Repository\LogEntryRepositoryInterface;
 use App\Infrastructure\Repository\Filter\LogEntryFilterTrait;
-use App\Shared\Dto\Request\LogFilterQueryParamsDto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -23,15 +23,19 @@ class LogEntryRepository extends ServiceEntityRepository implements LogEntryRepo
         parent::__construct($registry, LogEntryEntity::class);
     }
 
-    public function countFilteredLogEntries(LogFilterQueryParamsDto $filtersDto): int
-    {
+    public function countFilteredLogEntries(
+        ?array $serviceNames = null,
+        ?int $statusCode = null,
+        ?\DateTimeImmutable $startDate = null,
+        ?\DateTimeImmutable $endDate = null,
+    ): int {
         $qb = $this->createQueryBuilder('log');
-        $this->applyServiceNamesFilter($qb, $filtersDto->serviceNames);
-        $this->applyStatusCodeFilter($qb, $filtersDto->statusCode);
+        $this->applyServiceNamesFilter($qb, $serviceNames);
+        $this->applyStatusCodeFilter($qb, $statusCode);
         $this->applyDateRangeFilter(
             $qb,
-            $filtersDto->startDate,
-            $filtersDto->endDate,
+            $startDate,
+            $endDate,
         );
 
         return (int) $qb
@@ -41,9 +45,15 @@ class LogEntryRepository extends ServiceEntityRepository implements LogEntryRepo
         ;
     }
 
-    public function save(LogEntryEntity ...$logEntryEntities): void
+    public function save(LogEntry ...$logEntries): void
     {
-        foreach ($logEntryEntities as $logEntryEntity) {
+        foreach ($logEntries as $logEntry) {
+            $logEntryEntity = new LogEntryEntity(
+                $logEntry->serviceName,
+                $logEntry->timestamp,
+                $logEntry->requestLine,
+                $logEntry->statusCode
+            );
             $this->getEntityManager()->persist($logEntryEntity);
         }
 

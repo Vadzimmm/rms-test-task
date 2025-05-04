@@ -1,30 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\LogSinker\Service;
 
-use App\Domain\LogEntry\LogEntryEntity;
-use App\Domain\LogSinker\Parser\LogParserFactoryInterface;
+use App\Domain\LogSinker\Exception\InvalidBatchSizeException;
+use App\Domain\LogSinker\Parser\ParserInterface;
 use App\Domain\LogSinker\Reader\ReaderInterface;
 use App\Domain\LogSinker\Repository\LogEntryRepositoryInterface;
 
 final readonly class LogSinkerService implements LogSinkerServiceInterface
 {
     public function __construct(
-        private LogParserFactoryInterface $logParserFactory,
-        private LogEntryRepositoryInterface $logEntryRepository
+        private LogEntryRepositoryInterface $logEntryRepository,
+        private ParserInterface $parser,
     ) {}
+
     public function importFrom(ReaderInterface $reader, int $batchSize): void
     {
-        $parser = $this->logParserFactory->create($reader);
+        if ($batchSize <= 0) {
+            throw new InvalidBatchSizeException($batchSize);
+        }
+
         $batch = [];
 
-        foreach ($parser->parse() as $entry) {
-            $batch[] = new LogEntryEntity(
-                $entry->serviceName,
-                $entry->timestamp,
-                $entry->requestLine,
-                $entry->statusCode
-            );
+        foreach ($this->parser->parseFrom($reader) as $entry) {
+            $batch[] = $entry;
 
             if (count($batch) >= $batchSize) {
                 $this->logEntryRepository->save(...$batch);

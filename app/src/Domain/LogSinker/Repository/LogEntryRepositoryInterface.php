@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace App\Domain\LogSinker\Repository;
 
-use App\Domain\LogEntry\LogEntryEntity;
-use App\Shared\Dto\Request\LogFilterQueryParamsDto;
+use App\Domain\LogSinker\LogEntry;
 
 interface LogEntryRepositoryInterface
 {
-    public function countFilteredLogEntries(LogFilterQueryParamsDto $filtersDto): int;
+    /**
+     * @param null|array<string> $serviceNames
+     */
+    public function countFilteredLogEntries(
+        ?array $serviceNames = null,
+        ?int $statusCode = null,
+        ?\DateTimeImmutable $startDate = null,
+        ?\DateTimeImmutable $endDate = null,
+    ): int;
 
-    public function save(LogEntryEntity $logEntryEntity): void;
+    public function save(LogEntry ...$logEntries): void;
 }
