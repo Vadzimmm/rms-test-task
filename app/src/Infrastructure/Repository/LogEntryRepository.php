@@ -6,7 +6,7 @@ namespace App\Infrastructure\Repository;
 
 use App\Domain\LogEntry\LogEntryEntity;
 use App\Infrastructure\Repository\Filter\LogEntryFilterTrait;
-use App\Shared\DTO\Request\LogFilterQueryParamsDto;
+use App\Shared\Dto\Request\LogFilterQueryParamsDto;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -30,7 +30,11 @@ install: \
 	install-docker-build \
 	install-php-ini-files \
 	install-database \
-	install-app-env
+	install-app-env \
+	install-composer-packages \
+	install-migrations \
+	run-workers \
+	up
 
 
 install-docker-build:
@@ -92,7 +96,7 @@ stop-workers:
 
 up:
 	cd ./docker && docker compose up -d
-	@echo "Application is available at: http://127.0.0.1:8080"
+	@echo "Application is available at: http://127.0.0.1:8080/api/doc"
 
 clean:
 	cd ./docker && docker compose down -v

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Repository;
 
 use App\Domain\LogEntry\LogEntryEntity;
-use App\Shared\DTO\Request\LogFilterQueryParamsDto;
+use App\Shared\Dto\Request\LogFilterQueryParamsDto;
 
 interface LogEntryRepositoryInterface
 {
