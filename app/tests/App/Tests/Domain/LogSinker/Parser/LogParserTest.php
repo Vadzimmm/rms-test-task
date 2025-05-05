@@ -7,7 +7,7 @@ namespace App\Tests\Domain\LogSinker\Parser;
 use App\Domain\LogSinker\LogEntry;
 use App\Domain\LogSinker\Parser\LogParser;
 use App\Domain\LogSinker\Parser\ParserStrategyInterface;
-use App\Domain\LogSinker\Reader\ReaderInterface;
+use App\Domain\LogSinker\Stream\LineStreamInterface;
 use Carbon\Carbon;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -28,8 +28,8 @@ final class LogParserTest extends TestCase
             201
         );
 
-        $reader = $this->createMock(ReaderInterface::class);
-        $reader->method('read')->willReturn([$logLine]);
+        $lineSteam = $this->createMock(LineStreamInterface::class);
+        $lineSteam->method('read')->willReturn([$logLine]);
 
         $strategy = $this->createMock(ParserStrategyInterface::class);
         $strategy->expects($this->once())
@@ -43,7 +43,7 @@ final class LogParserTest extends TestCase
 
         $parser = new LogParser($strategy, $logger);
 
-        $result = iterator_to_array($parser->parseFrom($reader));
+        $result = iterator_to_array($parser->parseFrom($lineSteam));
 
         $this->assertCount(1, $result);
         $this->assertSame($parsedEntry, $result[0]);
@@ -53,8 +53,8 @@ final class LogParserTest extends TestCase
     {
         $logLine = 'INVALID LOG LINE';
 
-        $reader = $this->createMock(ReaderInterface::class);
-        $reader->method('read')->willReturn([$logLine]);
+        $lineSteam = $this->createMock(LineStreamInterface::class);
+        $lineSteam->method('read')->willReturn([$logLine]);
 
         $strategy = $this->createMock(ParserStrategyInterface::class);
         $strategy->expects($this->once())
@@ -68,7 +68,7 @@ final class LogParserTest extends TestCase
 
         $parser = new LogParser($strategy, $logger);
 
-        $result = iterator_to_array($parser->parseFrom($reader));
+        $result = iterator_to_array($parser->parseFrom($lineSteam));
 
         $this->assertCount(0, $result);
     }

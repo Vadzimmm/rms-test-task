@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\LogSinker\Parser;
 
-use App\Domain\LogSinker\Reader\ReaderInterface;
+use App\Domain\LogSinker\Stream\LineStreamInterface;
 use Psr\Log\LoggerInterface;
 
 final readonly class LogParser implements ParserInterface
@@ -14,9 +14,9 @@ final readonly class LogParser implements ParserInterface
         private LoggerInterface $logger,
     ) {}
 
-    public function parseFrom(ReaderInterface $reader): iterable
+    public function parseFrom(LineStreamInterface $lineStream): iterable
     {
-        foreach ($reader->read() as $logRecord) {
+        foreach ($lineStream->read() as $logRecord) {
             $entry = $this->parserStrategy->parseEntry($logRecord);
 
             if (null === $entry) {

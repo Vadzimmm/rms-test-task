@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Domain\LogSinker\Reader;
+namespace App\Tests\Domain\LogSinker\Stream;
 
 use App\Domain\LogSinker\Exception\FileNotReadableException;
-use App\Domain\LogSinker\Reader\FileReader;
+use App\Domain\LogSinker\Stream\FileLineStream;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FileReader::class)]
-final class FileReaderTest extends TestCase
+#[CoversClass(FileLineStream::class)]
+final class FileLineStreamTest extends TestCase
 {
     private string $tempFile;
 
@@ -28,8 +28,8 @@ final class FileReaderTest extends TestCase
         $this->tempFile = tempnam(sys_get_temp_dir(), 'log_');
         file_put_contents($this->tempFile, implode('', $lines));
 
-        $reader = new FileReader($this->tempFile);
-        $result = iterator_to_array($reader->read());
+        $lineSteam = new FileLineStream($this->tempFile);
+        $result = iterator_to_array($lineSteam->read());
 
         $this->assertSame($lines, $result);
     }
@@ -39,9 +39,9 @@ final class FileReaderTest extends TestCase
         $this->tempFile = tempnam(sys_get_temp_dir(), 'log_');
         chmod($this->tempFile, 0000);
 
-        $reader = new FileReader($this->tempFile);
+        $lineSteam = new FileLineStream($this->tempFile);
 
         $this->expectException(FileNotReadableException::class);
-        iterator_to_array($reader->read());
+        iterator_to_array($lineSteam->read());
     }
 }

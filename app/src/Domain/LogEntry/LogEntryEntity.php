@@ -12,6 +12,11 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: LogEntryRepository::class)]
 #[ORM\Table(name: 'log_entry')]
+#[ORM\Index(name: 'idx_service_name', columns: ['service_name'])]
+#[ORM\Index(name: 'idx_timestamp', columns: ['timestamp'])]
+#[ORM\Index(name: 'idx_status_code', columns: ['status_code'])]
+#[ORM\Index(name: 'idx_service_status', columns: ['service_name', 'status_code'])]
+#[ORM\Index(name: 'idx_service_date', columns: ['service_name', 'timestamp'])]
 class LogEntryEntity
 {
     #[ORM\Id]

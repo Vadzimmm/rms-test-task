@@ -7,9 +7,9 @@ namespace App\Tests\Domain\LogSinker\Service;
 use App\Domain\LogSinker\Exception\InvalidBatchSizeException;
 use App\Domain\LogSinker\LogEntry;
 use App\Domain\LogSinker\Parser\ParserInterface;
-use App\Domain\LogSinker\Reader\ReaderInterface;
 use App\Domain\LogSinker\Repository\LogEntryRepositoryInterface;
 use App\Domain\LogSinker\Service\LogSinkerService;
+use App\Domain\LogSinker\Stream\LineStreamInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -23,9 +23,9 @@ final class LogSinkerServiceTest extends TestCase
             $this->createFakeEntry(),
             $this->createFakeEntry(),
         ];
-        $reader = $this->createMock(ReaderInterface::class);
+        $lineSteam = $this->createMock(LineStreamInterface::class);
         $parser = $this->createMock(ParserInterface::class);
-        $parser->method('parseFrom')->with($reader)->willReturn($entries);
+        $parser->method('parseFrom')->with($lineSteam)->willReturn($entries);
         $repo = $this->createMock(LogEntryRepositoryInterface::class);
 
         $repo->expects($this->once())
@@ -34,7 +34,7 @@ final class LogSinkerServiceTest extends TestCase
         ;
 
         $service = new LogSinkerService($repo, $parser);
-        $service->importFrom($reader, $batchSize);
+        $service->importFrom($lineSteam, $batchSize);
     }
 
     public function testImportWithMultipleBatchesAndRemainder(): void
@@ -45,7 +45,7 @@ final class LogSinkerServiceTest extends TestCase
         $e3 = $this->createFakeEntry();
         $e4 = $this->createFakeEntry();
         $entries = [$e1, $e2, $e3, $e4];
-        $reader = $this->createMock(ReaderInterface::class);
+        $reader = $this->createMock(LineStreamInterface::class);
         $parser = $this->createMock(ParserInterface::class);
         $parser->method('parseFrom')->with($reader)->willReturn($entries);
         $calls = [];
@@ -66,7 +66,7 @@ final class LogSinkerServiceTest extends TestCase
 
     public function testThrowsOnInvalidBatchSize(): void
     {
-        $reader = $this->createMock(ReaderInterface::class);
+        $reader = $this->createMock(LineStreamInterface::class);
         $parser = $this->createMock(ParserInterface::class);
         $repo = $this->createMock(LogEntryRepositoryInterface::class);
         $service = new LogSinkerService($repo, $parser);

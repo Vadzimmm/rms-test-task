@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\LogSinker\Reader;
+namespace App\Domain\LogSinker\Stream;
 
 use App\Domain\LogSinker\Exception\FileNotReadableException;
 use App\Domain\LogSinker\Exception\FileOpenException;
 
-final readonly class FileReader implements ReaderInterface
+final readonly class FileLineStream implements LineStreamInterface
 {
     public function __construct(
         private string $filePath
@@ -23,6 +23,13 @@ final readonly class FileReader implements ReaderInterface
 
         if (!$file) {
             throw new FileOpenException($this->filePath);
+        }
+
+        if (!feof($file)) {
+            $line = fgets($file);
+            if (false !== $line) {
+                yield str_replace(pack('H*', 'EFBBBF'), '', $line);
+            }
         }
 
         while (!feof($file)) {

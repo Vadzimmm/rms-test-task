@@ -23,6 +23,7 @@ return (new Config())
         '@PhpCsFixer' => true,
         'declare_strict_types' => true,
         'yoda_style' => true,
+        'php_unit_internal_class' => false,
     ])
     ->setUsingCache(true)
 ;

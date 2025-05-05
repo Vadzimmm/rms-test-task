@@ -46,21 +46,6 @@ final class LogAnalyticsControllerTest extends WebTestCase
         $this->assertSame($expectedCount, $data['counter']);
     }
 
-    private function loadFixtures(array $fixtures): void
-    {
-        $loader = new Loader();
-
-        foreach ($fixtures as $fixture) {
-            $loader->addFixture($fixture);
-        }
-
-        $purger = new ORMPurger($this->em);
-        $executor = new ORMExecutor($this->em, $purger);
-        $executor->purge();
-
-        $executor->execute($loader->getFixtures());
-    }
-
     public static function provideFiltersAndExpectedCount(): array
     {
         return [
@@ -94,5 +79,20 @@ final class LogAnalyticsControllerTest extends WebTestCase
                 1,
             ],
         ];
+    }
+
+    private function loadFixtures(array $fixtures): void
+    {
+        $loader = new Loader();
+
+        foreach ($fixtures as $fixture) {
+            $loader->addFixture($fixture);
+        }
+
+        $purger = new ORMPurger($this->em);
+        $executor = new ORMExecutor($this->em, $purger);
+        $executor->purge();
+
+        $executor->execute($loader->getFixtures());
     }
 }

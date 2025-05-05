@@ -6,6 +6,7 @@ namespace App\Infrastructure\Command;
 
 use App\Application\Command\CommandBusInterface;
 use App\Application\Command\SaveLogCommand;
+use App\Domain\LogSinker\Exception\FileNotReadableException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,6 +47,17 @@ final class LogSinkerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filePath = $input->getArgument('file');
+
+        if (!is_string($filePath)) {
+            $output->writeln('<error>Invalid file path argument.</error>');
+
+            return Command::FAILURE;
+        }
+
+        if (!is_readable($filePath)) {
+            throw new FileNotReadableException($filePath);
+        }
+
         $batchSize = $input->getArgument('batchSize');
         if (!is_numeric($batchSize) || (int) $batchSize <= 0) {
             $output->writeln('<error>Batch size must be a positive integer.</error>');
@@ -54,12 +66,6 @@ final class LogSinkerCommand extends Command
         }
 
         $batchSize = (int) $batchSize;
-
-        if (!is_string($filePath)) {
-            $output->writeln('<error>Invalid file path argument.</error>');
-
-            return Command::FAILURE;
-        }
 
         try {
             $this->commandBus->execute(new SaveLogCommand($filePath, $batchSize));

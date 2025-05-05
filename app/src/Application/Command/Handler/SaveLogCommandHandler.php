@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Application\Command\Handler;
 
 use App\Application\Command\SaveLogCommand;
-use App\Domain\LogSinker\Reader\FileReader;
 use App\Domain\LogSinker\Service\LogSinkerServiceInterface;
+use App\Domain\LogSinker\Stream\FileLineStream;
 
 final readonly class SaveLogCommandHandler implements CommandHandlerInterface
 {
@@ -16,7 +16,7 @@ final readonly class SaveLogCommandHandler implements CommandHandlerInterface
 
     public function __invoke(SaveLogCommand $saveLogCommand): void
     {
-        $reader = new FileReader($saveLogCommand->filePath);
+        $reader = new FileLineStream($saveLogCommand->filePath);
         $this->logSinkerService->importFrom($reader, $saveLogCommand->batchSize);
     }
 }
