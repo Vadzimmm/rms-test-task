@@ -6,13 +6,10 @@ namespace App\Tests\Domain\LogSinker\Reader;
 
 use App\Domain\LogSinker\Exception\FileNotReadableException;
 use App\Domain\LogSinker\Reader\FileReader;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
+#[CoversClass(FileReader::class)]
 final class FileReaderTest extends TestCase
 {
     private string $tempFile;

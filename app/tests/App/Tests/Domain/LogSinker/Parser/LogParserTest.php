@@ -9,14 +9,11 @@ use App\Domain\LogSinker\Parser\LogParser;
 use App\Domain\LogSinker\Parser\ParserStrategyInterface;
 use App\Domain\LogSinker\Reader\ReaderInterface;
 use Carbon\Carbon;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
-/**
- * @internal
- *
- * @coversNothing
- */
+#[CoversClass(LogParser::class)]
 final class LogParserTest extends TestCase
 {
     public function testSuccessfulParse(): void

@@ -14,3 +14,6 @@ services:
   mariadb:
     ports:
       - "127.0.0.1:3388:3306"
+    command: >
+      --general-log=1
+      --general-log-file=/var/log/mysql/query.log

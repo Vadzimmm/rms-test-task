@@ -8,13 +8,10 @@ use App\Domain\LogSinker\Exception\InvalidLogTimestampException;
 use App\Domain\LogSinker\LogEntry;
 use App\Domain\LogSinker\Parser\ParserStrategyInterface;
 use App\Domain\LogSinker\Parser\RegexParserStrategy;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
+#[CoversClass(RegexParserStrategy::class)]
 final class RegexParserStrategyTest extends TestCase
 {
     private ParserStrategyInterface $parser;

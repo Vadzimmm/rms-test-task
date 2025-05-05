@@ -33,9 +33,8 @@ install: \
 	install-app-env \
 	install-composer-packages \
 	install-migrations \
-	run-workers \
-	up
-
+	up \
+	run-workers
 
 install-docker-build:
 	@echo "Building docker images"
@@ -70,7 +69,8 @@ install-composer-packages:
 install-migrations:
 	@echo "Installing migrations"
 	cd ./docker && \
-	docker compose run --rm -u www-data -it -e XDEBUG_MODE=off php-cli bin/console doctrine:migrations:migrate --no-interaction
+	docker compose run --rm -u www-data -it -e XDEBUG_MODE=off php-cli bin/console doctrine:migrations:migrate --no-interaction && \
+	docker compose run --rm -u www-data -it -e XDEBUG_MODE=off php-cli bin/console --env=test doctrine:schema:create
 
 run-workers:
 	@echo "Checking if Symfony Messenger async workers are running..."
@@ -104,6 +104,9 @@ clean:
 
 test:
 	cd ./docker && docker compose run --rm -u www-data -it -e XDEBUG_MODE=off php-cli sh -c "composer qa"
+
+db-log:
+	cd ./docker && docker compose exec mariadb tail -f /var/log/mysql/query.log
 
 sh:
 	cd ./docker && docker compose run --rm -u www-data -it php-cli sh -l

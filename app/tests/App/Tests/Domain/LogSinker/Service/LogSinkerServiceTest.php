@@ -10,13 +10,10 @@ use App\Domain\LogSinker\Parser\ParserInterface;
 use App\Domain\LogSinker\Reader\ReaderInterface;
 use App\Domain\LogSinker\Repository\LogEntryRepositoryInterface;
 use App\Domain\LogSinker\Service\LogSinkerService;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
+#[CoversClass(LogSinkerService::class)]
 final class LogSinkerServiceTest extends TestCase
 {
     public function testImportWithExactBatchSize(): void
