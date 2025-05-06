@@ -13,6 +13,9 @@ use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<LogEntryEntity>
+ *
+ *  Read/write methods in a single interface slightly violate ISP,
+ *  but acceptable here due to app simplicity.
  */
 class LogEntryRepository extends ServiceEntityRepository implements LogEntryRepositoryInterface
 {
