@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\LogSinker\Stream;
 
-use App\LogSinker\Exception\FileNotReadableException;
-use App\LogSinker\Stream\FileLineStream;
+use App\Service\LogSinker\Exception\FileNotReadableException;
+use App\Service\LogSinker\Stream\FileLineStream;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\LogSinker\Parser;
 
-use App\LogSinker\Exception\InvalidLogTimestampException;
-use App\LogSinker\LogEntry;
-use App\LogSinker\Parser\ParserStrategyInterface;
-use App\LogSinker\Parser\RegexParserStrategy;
+use App\Service\LogSinker\Exception\InvalidLogTimestampException;
+use App\Service\LogSinker\LogEntry;
+use App\Service\LogSinker\Parser\ParserStrategyInterface;
+use App\Service\LogSinker\Parser\RegexParserStrategy;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 

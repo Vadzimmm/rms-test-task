@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\LogSinker;
+namespace App\Service\LogSinker;
 
 final readonly class LogEntry
 {

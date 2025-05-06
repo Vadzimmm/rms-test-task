@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\LogSinker\Repository;
+namespace App\Service\LogSinker\Repository;
 
-use App\LogSinker\LogEntry;
+use App\Service\LogSinker\LogEntry;
 
 interface LogEntryRepositoryInterface
 {

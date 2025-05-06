@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\LogSinker\Parser;
+namespace App\Service\LogSinker\Parser;
 
-use App\LogSinker\LogEntry;
-use App\LogSinker\Stream\LineStreamInterface;
+use App\Service\LogSinker\LogEntry;
+use App\Service\LogSinker\Stream\LineStreamInterface;
 
 interface ParserInterface
 {

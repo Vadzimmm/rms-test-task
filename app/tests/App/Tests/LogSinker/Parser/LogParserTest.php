@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\LogSinker\Parser;
 
-use App\LogSinker\LogEntry;
-use App\LogSinker\Parser\LogParser;
-use App\LogSinker\Parser\ParserStrategyInterface;
-use App\LogSinker\Stream\LineStreamInterface;
+use App\Service\LogSinker\LogEntry;
+use App\Service\LogSinker\Parser\LogParser;
+use App\Service\LogSinker\Parser\ParserStrategyInterface;
+use App\Service\LogSinker\Stream\LineStreamInterface;
 use Carbon\Carbon;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\LogSinker\Parser;
+namespace App\Service\LogSinker\Parser;
 
-use App\LogSinker\Stream\LineStreamInterface;
+use App\Service\LogSinker\Stream\LineStreamInterface;
 use Psr\Log\LoggerInterface;
 
 final readonly class LogParser implements ParserInterface

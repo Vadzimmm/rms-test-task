@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\LogEntryEntity;
-use App\LogSinker\LogEntry;
-use App\LogSinker\Repository\LogEntryRepositoryInterface;
 use App\Repository\Filter\LogEntryFilterTrait;
+use App\Service\LogSinker\LogEntry;
+use App\Service\LogSinker\Repository\LogEntryRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<LogEntryEntity>
+ *
+ * Read/write methods in a single interface slightly violate ISP,
+ * but acceptable here due to app simplicity.
  */
 class LogEntryRepository extends ServiceEntityRepository implements LogEntryRepositoryInterface
 {

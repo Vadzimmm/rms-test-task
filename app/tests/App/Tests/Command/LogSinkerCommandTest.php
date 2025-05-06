@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Command\LogSinkerCommand;
-use App\LogSinker\Exception\FileNotReadableException;
-use App\LogSinker\LogEntry;
-use App\LogSinker\Parser\ParserInterface;
-use App\LogSinker\Repository\LogEntryRepositoryInterface;
+use App\Service\LogSinker\Exception\FileNotReadableException;
+use App\Service\LogSinker\LogEntry;
+use App\Service\LogSinker\Parser\ParserInterface;
+use App\Service\LogSinker\Repository\LogEntryRepositoryInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;

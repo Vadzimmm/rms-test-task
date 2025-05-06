@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\LogSinker\Exception;
+namespace App\Service\LogSinker\Exception;
 
-final class FileNotReadableException extends \RuntimeException
+final class FileOpenException extends \RuntimeException
 {
     public function __construct(
         readonly string $filePath,
@@ -12,7 +12,7 @@ final class FileNotReadableException extends \RuntimeException
         int $code = 0,
         ?\Throwable $previous = null
     ) {
-        $finalMessage = $message ?: sprintf('The file "%s" is not readable.', $filePath);
+        $finalMessage = $message ?: sprintf('Failed to open the file. Filepath: "%s"', $filePath);
         parent::__construct($finalMessage, $code, $previous);
     }
 }

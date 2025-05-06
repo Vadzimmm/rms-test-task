@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\LogSinker\Stream;
+namespace App\Service\LogSinker\Stream;
 
-use App\LogSinker\Exception\FileNotReadableException;
-use App\LogSinker\Exception\FileOpenException;
+use App\Service\LogSinker\Exception\FileNotReadableException;
+use App\Service\LogSinker\Exception\FileOpenException;
 
 final readonly class FileLineStream implements LineStreamInterface
 {

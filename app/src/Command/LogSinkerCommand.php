@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\LogSinker\Exception\FileNotReadableException;
-use App\LogSinker\Parser\ParserInterface;
-use App\LogSinker\Repository\LogEntryRepositoryInterface;
-use App\LogSinker\Service\LogSinkerService;
-use App\LogSinker\Stream\FileLineStream;
+use App\Service\LogSinker\Exception\FileNotReadableException;
+use App\Service\LogSinker\Parser\ParserInterface;
+use App\Service\LogSinker\Repository\LogEntryRepositoryInterface;
+use App\Service\LogSinker\Service\LogSinkerService;
+use App\Service\LogSinker\Stream\FileLineStream;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

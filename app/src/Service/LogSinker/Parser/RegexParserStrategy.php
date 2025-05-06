@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\LogSinker\Parser;
+namespace App\Service\LogSinker\Parser;
 
-use App\LogSinker\Exception\InvalidLogTimestampException;
-use App\LogSinker\LogEntry;
+use App\Service\LogSinker\Exception\InvalidLogTimestampException;
+use App\Service\LogSinker\LogEntry;
 
 final readonly class RegexParserStrategy implements ParserStrategyInterface
 {

@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Dto\Request\LogFilterQueryParamsDto;
 use App\Dto\Response\CountItemDto;
-use App\Service\LogQueryServiceInterface;
+use App\Query\LogQueryInterface;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class LogAnalyticsController extends AbstractController
 {
     public function __construct(
-        private readonly LogQueryServiceInterface $logQueryService,
+        private readonly LogQueryInterface $logQueryService,
     ) {}
 
     #[OA\Get(

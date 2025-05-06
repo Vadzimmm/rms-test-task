@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\LogSinker\Service;
+namespace App\Service\LogSinker\Service;
 
-use App\LogSinker\Exception\InvalidBatchSizeException;
-use App\LogSinker\Parser\ParserInterface;
-use App\LogSinker\Repository\LogEntryRepositoryInterface;
-use App\LogSinker\Stream\LineStreamInterface;
+use App\Service\LogSinker\Exception\InvalidBatchSizeException;
+use App\Service\LogSinker\Parser\ParserInterface;
+use App\Service\LogSinker\Repository\LogEntryRepositoryInterface;
+use App\Service\LogSinker\Stream\LineStreamInterface;
 use Psr\Log\LoggerInterface;
 
 final readonly class LogSinkerService implements LogSinkerServiceInterface

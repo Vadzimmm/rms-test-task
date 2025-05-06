@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\LogSinker\Service;
 
-use App\LogSinker\Exception\InvalidBatchSizeException;
-use App\LogSinker\LogEntry;
-use App\LogSinker\Parser\ParserInterface;
-use App\LogSinker\Repository\LogEntryRepositoryInterface;
-use App\LogSinker\Service\LogSinkerService;
-use App\LogSinker\Stream\LineStreamInterface;
+use App\Service\LogSinker\Exception\InvalidBatchSizeException;
+use App\Service\LogSinker\LogEntry;
+use App\Service\LogSinker\Parser\ParserInterface;
+use App\Service\LogSinker\Repository\LogEntryRepositoryInterface;
+use App\Service\LogSinker\Service\LogSinkerService;
+use App\Service\LogSinker\Stream\LineStreamInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;

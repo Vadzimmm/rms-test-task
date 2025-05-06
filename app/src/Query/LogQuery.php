@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Query;
 
 use App\Dto\Request\LogFilterQueryParamsDto;
 use App\Dto\Response\CountItemDto;
-use App\LogSinker\Repository\LogEntryRepositoryInterface;
+use App\Service\LogSinker\Repository\LogEntryRepositoryInterface;
 
-final readonly class LogQueryService implements LogQueryServiceInterface
+final readonly class LogQuery implements LogQueryInterface
 {
     public function __construct(
         private LogEntryRepositoryInterface $logEntryRepository,

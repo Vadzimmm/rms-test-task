@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\LogSinker\Exception;
+namespace App\Service\LogSinker\Exception;
 
 final class InvalidLogTimestampException extends \RuntimeException
 {
