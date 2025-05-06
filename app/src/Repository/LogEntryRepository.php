@@ -1,0 +1,63 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Repository;
+
+use App\Entity\LogEntryEntity;
+use App\LogSinker\LogEntry;
+use App\LogSinker\Repository\LogEntryRepositoryInterface;
+use App\Repository\Filter\LogEntryFilterTrait;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * @extends ServiceEntityRepository<LogEntryEntity>
+ */
+class LogEntryRepository extends ServiceEntityRepository implements LogEntryRepositoryInterface
+{
+    use LogEntryFilterTrait;
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, LogEntryEntity::class);
+    }
+
+    public function countFilteredLogEntries(
+        ?array $serviceNames = null,
+        ?int $statusCode = null,
+        ?\DateTimeImmutable $startDate = null,
+        ?\DateTimeImmutable $endDate = null,
+    ): int {
+        $qb = $this->createQueryBuilder('log');
+        $this->applyServiceNamesFilter($qb, $serviceNames);
+        $this->applyStatusCodeFilter($qb, $statusCode);
+        $this->applyDateRangeFilter(
+            $qb,
+            $startDate,
+            $endDate,
+        );
+
+        return (int) $qb
+            ->select('COUNT(log.id)')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    public function save(LogEntry ...$logEntries): void
+    {
+        foreach ($logEntries as $logEntry) {
+            $logEntryEntity = new LogEntryEntity(
+                $logEntry->serviceName,
+                $logEntry->timestamp,
+                $logEntry->requestLine,
+                $logEntry->statusCode
+            );
+            $this->getEntityManager()->persist($logEntryEntity);
+        }
+
+        $this->getEntityManager()->flush();
+        $this->getEntityManager()->clear();
+    }
+}

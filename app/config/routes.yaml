@@ -1,7 +1,7 @@
 controllers:
     resource:
-        path: ../src/Infrastructure/Controller/
-        namespace: App\Infrastructure\Controller
+        path: ../src/Controller/
+        namespace: App\Controller
     type: attribute
 
 app.swagger:

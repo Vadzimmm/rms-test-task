@@ -17,38 +17,30 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Domain/LogEntry/'
-            - '../src/Domain/LogSinker/LogEntry.php'
-            - '../src/Shared/'
+            - '../src/Entity/'
+            - '../src/LogSinker/LogEntry.php'
+            - '../src/Dto/'
             - '../src/Kernel.php'
 
-    App\Infrastructure\ExceptionHandler\:
-        resource: '../src/Infrastructure/ExceptionHandler/'
+    App\Exception\ExceptionHandler\:
+        resource: '../src/Exception/ExceptionHandler/'
         tags: [ 'app.exception_handler' ]
 
-    App\Infrastructure\EventListener\ExceptionListener:
+    App\EventListener\ExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
-    App\Infrastructure\ExceptionHandler\ExceptionHandlerResolver:
+    App\Exception\ExceptionHandler\ExceptionHandlerResolver:
         arguments:
             $handlers: !tagged_iterator app.exception_handler
 
-    App\Infrastructure\Serializer\CarbonDateTimeDenormalizer:
+    App\Serializer\CarbonDateTimeDenormalizer:
         tags: [ serializer.normalizer ]
 
     App\DataFixtures\:
         resource: '../src/DataFixtures'
         tags: [ 'doctrine.fixture.orm' ]
 
-    _instanceof:
-        App\Application\Command\Handler\CommandHandlerInterface:
-            tags:
-                - { name: messenger.message_handler, bus: command.bus }
-
-        App\Application\Query\Handler\QueryHandlerInterface:
-            tags:
-                - { name: messenger.message_handler, bus: query.bus }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

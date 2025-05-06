@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Domain\LogEntry\LogEntryEntity;
+use App\Entity\LogEntryEntity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 

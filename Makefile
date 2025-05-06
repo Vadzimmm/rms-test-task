@@ -36,7 +36,6 @@ install: \
 	install-composer-packages \
 	install-migrations \
 	up \
-	start-workers
 
 install-docker-build:
 	@echo "Building docker images"
@@ -74,28 +73,6 @@ install-migrations:
 	docker compose run --rm -u www-data -it -e XDEBUG_MODE=off php-cli bin/console doctrine:migrations:migrate --no-interaction && \
 	docker compose run --rm -u www-data -it -e XDEBUG_MODE=off php-cli bin/console --env=test doctrine:migrations:migrate --no-interaction
 
-start-workers:
-	@if [ -n "$$(docker ps -q --filter 'name=$(COMPOSE_PROJECT_NAME)-async-workers' --filter 'status=running')" ]; then \
-		echo "Attaching to running workers..."; \
-		docker attach $(COMPOSE_PROJECT_NAME)-async-workers; \
-	else \
-		echo "Starting async workers..."; \
-		cd ./docker && \
-		docker compose run --rm \
-			-u www-data \
-			-e XDEBUG_MODE=off \
-			--name=$(COMPOSE_PROJECT_NAME)-async-workers \
-			php-cli \
-			bin/console messenger:consume async_command -vv; \
-	fi
-
-stop-workers:
-	@echo "Stopping Symfony Messenger async workers..."
-	cd ./docker && \
-	docker exec -it -u www-data -e XDEBUG_MODE=off \
-	$(COMPOSE_PROJECT_NAME)-async-workers \
-	bin/console messenger:stop-workers
-
 up:
 	cd ./docker && docker compose up -d
 	@echo "Application is available at: http://127.0.0.1:8080/api/doc"
@@ -114,4 +91,4 @@ sh:
 	cd ./docker && docker compose run --rm -u www-data -it php-cli sh -l
 
 run:
-	docker exec -it -e XDEBUG_MODE=off $(COMPOSE_PROJECT_NAME)_php bin/console app:parse-log ./data/logs.log 10
+	docker exec -it -e XDEBUG_MODE=off $(COMPOSE_PROJECT_NAME)_php bin/console app:parse-log ./data/logs.log 10 -vv
